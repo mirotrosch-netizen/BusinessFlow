@@ -1,0 +1,1 @@
+BusinessFlow ist ein Marktplatz für Unternehmer:innen in der Schweiz. Businesses inserieren und gezielt Kapital, Mithilfe oder Geschäftspartner finden. Im Forum werden Erfahrungen ausgetauscht, im integrierten Chat läuft die direkte Kommunikation mit Inserent:innen – alles übersichtlich, kostenlos und an einem Ort.
