@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusinessFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0C11;
+  --bg-card:#12151D;
+  --bg-card-2:#161A24;
+  --border:#242835;
+  --border-soft:#1B1E28;
+  --gold:#C9A24A;
+  --gold-light:#E0C482;
+  --gold-soft:#8C7841;
+  --text:#EDEBE4;
+  --text-dim:#8A8D96;
+  --radius:8px;
+  --red:#E5675F;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% -10%, rgba(201,162,74,.08), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(201,162,74,.05), transparent 40%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  min-height:100vh;
+}
+header{
+  background:rgba(10,12,17,.9);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+  padding:18px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:20;
+}
+.logo{font-size:1.3em;font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:9px;}
+.logo .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);}
+.right{display:flex;align-items:center;gap:28px;}
+nav button{
+  background:none;border:none;color:var(--text-dim);
+  font-size:.9em;letter-spacing:.3px;cursor:pointer;
+  padding:6px 2px;border-bottom:1px solid transparent;font-weight:600;
+}
+nav button.active,nav button:hover{color:var(--gold-light);border-color:var(--gold);}
+.btn-outline{
+  background:none;border:1px solid var(--gold-soft);color:var(--gold-light);
+  padding:9px 20px;font-size:.85em;cursor:pointer;font-weight:600;
+  border-radius:var(--radius);
+}
+.btn-outline:hover{background:rgba(201,162,74,.1);}
+.user-chip{display:flex;align-items:center;gap:10px;font-size:.87em;color:var(--text-dim);}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#0A0C11;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82em;}
+.logout{background:none;border:none;color:var(--text-dim);font-size:.8em;cursor:pointer;text-decoration:underline;}
+
+main{max-width:1040px;margin:0 auto;padding:44px 24px 100px;}
+.eyebrow{color:var(--gold);font-size:.72em;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+h1{font-size:2em;font-weight:800;margin-bottom:8px;}
+.subtitle{color:var(--text-dim);margin-bottom:32px;font-size:.98em;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:700px){.grid{grid-template-columns:1fr;}}
+.card{
+  background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  cursor:pointer;
+  transition:.2s;
+}
+.card:hover{border-color:var(--gold-soft);box-shadow:0 8px 26px rgba(0,0,0,.35),0 0 0 1px rgba(201,162,74,.12);transform:translateY(-2px);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.tag{
+  display:inline-block;font-size:.7em;padding:5px 12px;border-radius:20px;
+  font-weight:700;letter-spacing:.3px;
+  border:1px solid var(--gold-soft);color:var(--gold-light);background:rgba(201,162,74,.08);
+}
+.industry{font-size:.75em;color:var(--text-dim);font-weight:600;}
+.card h3{margin-bottom:8px;font-size:1.1em;font-weight:700;}
+.card p{color:var(--text-dim);font-size:.9em;margin-bottom:14px;}
+.stats{display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--border-soft);padding-top:12px;}
+.stat{font-size:.75em;color:var(--text-dim);}
+.stat b{color:var(--text);display:block;font-size:1.05em;font-weight:700;}
+
+form{
+  background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));
+  border:1px solid var(--border-soft);border-radius:var(--radius);
+  padding:28px 30px;margin-bottom:32px;
+}
+form h2{margin-bottom:18px;font-size:1.25em;font-weight:800;}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:600px){.row,.row3{grid-template-columns:1fr;}}
+label{display:block;font-size:.78em;color:var(--text-dim);margin:12px 0 5px;font-weight:600;}
+input,textarea,select{
+  width:100%;padding:11px 13px;background:#0D0F15;
+  border:1px solid var(--border);color:var(--text);font-size:.92em;
+  font-family:inherit;border-radius:6px;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold-soft);}
+textarea{resize:vertical;min-height:70px;}
+button.submit{
+  margin-top:20px;
+  background:linear-gradient(90deg,var(--gold-soft),var(--gold));
+  color:#0A0C11;border:none;
+  padding:12px 26px;font-size:.88em;cursor:pointer;font-weight:800;
+  border-radius:6px;box-shadow:0 4px 16px rgba(201,162,74,.25);
+}
+button.submit:hover{filter:brightness(1.08);}
+.section-toggle{display:flex;justify-content:flex-end;margin-bottom:20px;}
+.section-toggle button.small{
+  background:none;border:1px solid var(--gold-soft);color:var(--gold-light);
+  padding:10px 18px;cursor:pointer;font-weight:700;font-size:.85em;border-radius:6px;
+}
+.section-toggle button.small:hover{background:rgba(201,162,74,.08);}
+.hidden{display:none !important;}
+.forum-post{
+  background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));
+  border:1px solid var(--border-soft);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px;
+}
+.forum-post .author{color:var(--gold-light);font-weight:700;font-size:.9em;}
+.forum-post .time{color:var(--text-dim);font-size:.78em;margin-left:8px;}
+.forum-post p{margin-top:8px;color:var(--text);font-size:.94em;}
+.empty{color:var(--text-dim);text-align:center;padding:40px 0;}
+.error-msg{color:var(--red);font-size:.82em;margin-top:10px;display:none;}
+
+/* Modal */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;
+}
+.modal{
+  background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));
+  border:1px solid var(--border-soft);border-radius:var(--radius);
+  width:100%;max-width:400px;padding:32px 30px;position:relative;
+  max-height:90vh;overflow-y:auto;
+}
+.modal.wide{max-width:560px;}
+.modal h2{font-size:1.4em;margin-bottom:6px;font-weight:800;}
+.modal .sub{color:var(--text-dim);font-size:.85em;margin-bottom:20px;}
+.close-x{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--text-dim);font-size:1.2em;cursor:pointer;}
+.switch-mode{margin-top:16px;font-size:.85em;color:var(--text-dim);text-align:center;}
+.switch-mode a{color:var(--gold-light);cursor:pointer;text-decoration:underline;}
+.detail-tag-row{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+.detail-desc{color:var(--text-dim);margin-bottom:20px;line-height:1.7;}
+.detail-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px;}
+.detail-stat{background:#0D0F15;border:1px solid var(--border-soft);border-radius:6px;padding:12px 14px;}
+.detail-stat .label{font-size:.72em;color:var(--text-dim);margin-bottom:4px;}
+.detail-stat .val{font-size:1.15em;font-weight:700;}
+.creator-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-top:16px;border-top:1px solid var(--border-soft);font-size:.9em;color:var(--text-dim);}
+.success-msg{background:rgba(80,180,120,.1);border:1px solid rgba(80,180,120,.35);color:#7fd8a0;padding:12px 14px;border-radius:6px;font-size:.88em;margin-top:14px;}
+.chat-item{
+  background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));
+  border:1px solid var(--border-soft);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:12px;cursor:pointer;transition:.2s;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
+.chat-item:hover{border-color:var(--gold-soft);transform:translateY(-1px);}
+.chat-item .ci-name{font-weight:700;font-size:.95em;}
+.chat-item .ci-sub{font-size:.8em;color:var(--text-dim);margin-top:3px;}
+.chat-item .ci-preview{font-size:.85em;color:var(--text-dim);max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.chat-item .ci-time{font-size:.72em;color:var(--text-dim);white-space:nowrap;}
+.bubble{max-width:75%;padding:10px 14px;border-radius:14px;font-size:.9em;line-height:1.5;}
+.bubble.me{align-self:flex-end;background:linear-gradient(90deg,var(--gold-soft),var(--gold));color:#0A0C11;border-bottom-right-radius:4px;}
+.bubble .b-time{display:block;font-size:.68em;margin-top:4px;opacity:.7;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="dot"></span>BusinessFlow</div>
+  <div class="right">
+    <nav>
+      <button class="active" onclick="showTab('start', event)">Startseite</button>
+      <button onclick="showTab('markt', event)">Marktplatz</button>
+      <button onclick="showTab('forum', event)">Forum</button>
+      <button onclick="showTab('chat', event)">Chat</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- MARKTPLATZ -->
+<!-- STARTSEITE -->
+<div id="start">
+  <div style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:20px 0 50px;">
+    <div style="flex:1;min-width:280px;">
+      <div class="eyebrow">Willkommen bei BusinessFlow</div>
+      <h1 style="font-size:2.4em;line-height:1.2;margin-bottom:16px;">Wo Unternehmer:innen und Chancen aufeinandertreffen.</h1>
+      <p style="color:var(--text-dim);font-size:1.05em;margin-bottom:26px;max-width:480px;">
+        Wir glauben, dass gute Ideen nicht an fehlendem Kapital, fehlender Hilfe oder fehlenden Partnern scheitern sollten.
+        BusinessFlow verbindet Menschen, die ein Business aufbauen, verkaufen oder weiterentwickeln wollen, mit denen,
+        die genau das mitbringen, was gerade gebraucht wird — Kapital, Know-how oder eine helfende Hand.
+      </p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <button class="submit" style="margin-top:0;" onclick="document.querySelector('nav button:nth-child(2)').click()">Marktplatz entdecken</button>
+        <button class="section-toggle-btn btn-outline" style="padding:12px 26px;" onclick="document.querySelector('nav button:nth-child(2)').click()">Inserat erstellen</button>
+      </div>
+    </div>
+    <div style="flex:1;min-width:280px;">
+      <svg viewBox="0 0 400 320" style="width:100%;height:auto;">
+        <defs>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#E0C482"/>
+            <stop offset="100%" stop-color="#8C7841"/>
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="160" r="130" fill="none" stroke="#1B1E28" stroke-width="1"/>
+        <circle cx="200" cy="160" r="90" fill="none" stroke="#1B1E28" stroke-width="1"/>
+        <line x1="90" y1="90" x2="200" y2="160" stroke="url(#goldGrad)" stroke-width="1.5" opacity=".6"/>
+        <line x1="310" y1="80" x2="200" y2="160" stroke="url(#goldGrad)" stroke-width="1.5" opacity=".6"/>
+        <line x1="90" y1="240" x2="200" y2="160" stroke="url(#goldGrad)" stroke-width="1.5" opacity=".6"/>
+        <line x1="320" y1="250" x2="200" y2="160" stroke="url(#goldGrad)" stroke-width="1.5" opacity=".6"/>
+        <line x1="200" y1="40" x2="200" y2="160" stroke="url(#goldGrad)" stroke-width="1.5" opacity=".6"/>
+        <circle cx="200" cy="160" r="26" fill="url(#goldGrad)"/>
+        <circle cx="90" cy="90" r="12" fill="#12151D" stroke="url(#goldGrad)" stroke-width="2"/>
+        <circle cx="310" cy="80" r="9" fill="#12151D" stroke="url(#goldGrad)" stroke-width="2"/>
+        <circle cx="90" cy="240" r="10" fill="#12151D" stroke="url(#goldGrad)" stroke-width="2"/>
+        <circle cx="320" cy="250" r="14" fill="#12151D" stroke="url(#goldGrad)" stroke-width="2"/>
+        <circle cx="200" cy="40" r="8" fill="#12151D" stroke="url(#goldGrad)" stroke-width="2"/>
+      </svg>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-soft);border:1px solid var(--border-soft);margin-bottom:60px;">
+    <div style="background:var(--bg-card);padding:26px;text-align:center;">
+      <div style="font-size:1.9em;font-weight:800;color:var(--gold-light);">Schweizweit</div>
+      <div style="color:var(--text-dim);font-size:.85em;margin-top:4px;">Aktiv in jedem Kanton</div>
+    </div>
+    <div style="background:var(--bg-card);padding:26px;text-align:center;">
+      <div style="font-size:1.9em;font-weight:800;color:var(--gold-light);">3 Wege</div>
+      <div style="color:var(--text-dim);font-size:.85em;margin-top:4px;">Kapital, Hilfe oder Partnerschaft</div>
+    </div>
+    <div style="background:var(--bg-card);padding:26px;text-align:center;">
+      <div style="font-size:1.9em;font-weight:800;color:var(--gold-light);">Kostenlos</div>
+      <div style="color:var(--text-dim);font-size:.85em;margin-top:4px;">Inserate ohne versteckte Gebühren</div>
+    </div>
+  </div>
+
+  <div class="eyebrow">So funktioniert's</div>
+  <h2 style="font-size:1.6em;margin-bottom:26px;">In drei Schritten zum Deal</h2>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:60px;">
+    <div class="card" style="cursor:default;">
+      <div style="color:var(--gold-light);font-weight:800;font-size:1.4em;margin-bottom:10px;">01</div>
+      <h3>Inserat erstellen</h3>
+      <p>Beschreibe dein Business und was du suchst — Kapital, Mithilfe oder einen Geschäftspartner.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <div style="color:var(--gold-light);font-weight:800;font-size:1.4em;margin-bottom:10px;">02</div>
+      <h3>Kontakt aufnehmen</h3>
+      <p>Interessierte melden sich direkt über die integrierte Nachrichtenfunktion bei dir.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <div style="color:var(--gold-light);font-weight:800;font-size:1.4em;margin-bottom:10px;">03</div>
+      <h3>Gemeinsam wachsen</h3>
+      <p>Tauscht euch im Chat aus, klärt Details und bringt euer Business gemeinsam voran.</p>
+    </div>
+  </div>
+
+  <div class="eyebrow">Die Community</div>
+  <h2 style="font-size:1.6em;margin-bottom:26px;">Ein Ort für alle Beteiligten</h2>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">
+    <div class="card" style="cursor:default;">
+      <h3>Marktplatz</h3>
+      <p>Businesses entdecken und eigene Inserate veröffentlichen.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <h3>Forum</h3>
+      <p>Erfahrungen austauschen, Fragen stellen, voneinander lernen.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <h3>Chat</h3>
+      <p>Direkt und unkompliziert mit Ersteller:innen von Inseraten sprechen.</p>
+    </div>
+  </div>
+</div>
+
+<div id="markt" class="hidden">
+  <div class="eyebrow">Marktplatz</div>
+  <h1>Businesses & Deals</h1>
+  <p class="subtitle">Firmen anbieten, Kapital, Partner oder Mithilfe finden.</p>
+
+  <div class="section-toggle">
+    <button class="small" onclick="toggle('formMarkt')">+ Inserat erstellen</button>
+  </div>
+
+  <form id="formMarkt" class="hidden" onsubmit="return addListing(event)">
+    <h2>Neues Inserat</h2>
+    <div class="row">
+      <div><label>Titel</label><input id="l-title" required placeholder="z.B. Café in Luzern, Nachfolge gesucht"></div>
+      <div><label>Branche</label><input id="l-industry" placeholder="z.B. Gastronomie, E-Commerce"></div>
+    </div>
+    <div class="row">
+      <div><label>Dein Name</label><input id="l-creator" required placeholder="Für Rückfragen von Interessenten"></div>
+    </div>
+    <div class="row">
+      <div><label>Was suchst du?</label>
+        <select id="l-type">
+          <option value="kapital">Kapital / Investor</option>
+          <option value="hilfe">Mithilfe / Know-how</option>
+          <option value="partner">Geschäftspartner</option>
+        </select>
+      </div>
+      <div><label>Standort</label><input id="l-loc" placeholder="z.B. Emmen, LU"></div>
+    </div>
+    <div class="row3">
+      <div><label>Team aktuell</label><input id="l-team-current" type="number" min="0" placeholder="z.B. 3"></div>
+      <div><label>Gesucht (zusätzlich)</label><input id="l-team-wanted" type="number" min="0" placeholder="z.B. 2"></div>
+      <div><label>Kapitalbedarf (CHF)</label><input id="l-kapital" placeholder="z.B. 50'000"></div>
+    </div>
+    <label>Beschreibung</label>
+    <textarea id="l-desc" required placeholder="Kurze Beschreibung des Business und was gebraucht wird"></textarea>
+    <button type="submit" class="submit">Inserat veröffentlichen</button>
+  </form>
+
+  <div class="grid" id="listings"></div>
+</div>
+
+<!-- FORUM -->
+<div id="forum" class="hidden">
+  <div class="eyebrow">Community</div>
+  <h1>Forum</h1>
+  <p class="subtitle">Diskussionen rund um Businesses, Deals und Erfahrungen.</p>
+
+  <form onsubmit="return addPost(event)">
+    <h2>Neuer Beitrag</h2>
+    <label>Dein Name</label>
+    <input id="p-author" required placeholder="Name oder Pseudonym">
+    <label>Beitrag</label>
+    <textarea id="p-text" required placeholder="Was möchtest du teilen oder fragen?"></textarea>
+    <button type="submit" class="submit">Beitrag posten</button>
+  </form>
+
+  <div id="posts"></div>
+</div>
+
+<!-- CHAT -->
+<div id="chat" class="hidden">
+  <div class="eyebrow">Nachrichten</div>
+  <h1>Chat</h1>
+  <p class="subtitle">Nachrichten, die du über "Ersteller kontaktieren" verschickt hast.</p>
+  <div id="chatMessages"></div>
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--border-soft);padding:36px 40px;margin-top:40px;color:var(--text-dim);font-size:.85em;">
+  <div style="max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;">
+    <div style="max-width:480px;">
+      <p style="margin-bottom:8px;color:var(--text);font-weight:700;">BusinessFlow</p>
+      <p>Diese Website ist ein Prototyp/Demo-Projekt und dient keinen kommerziellen Zwecken. Es besteht kein Anspruch auf Vollständigkeit, Richtigkeit oder Verfügbarkeit der angezeigten Inhalte. Alle Angaben in Inseraten stammen von den jeweiligen Nutzer:innen — BusinessFlow übernimmt hierfür keine Haftung.</p>
+      <p style="margin-top:10px;">Bei Fragen zu Datenschutz, Impressum oder rechtlichen Themen stellt diese bitte gerne direkt an mich. Für Fehlermeldungen oder technische Probleme: <a href="mailto:mirotrosch@gmail.com" style="color:var(--gold-light);">mirotrosch@gmail.com</a></p>
+    </div>
+    <div>
+      <p style="color:var(--text);font-weight:700;margin-bottom:8px;">Rechtliches</p>
+      <p>Impressum</p>
+      <p>Datenschutz</p>
+      <p>AGB</p>
+    </div>
+  </div>
+  <p style="max-width:1040px;margin:20px auto 0;border-top:1px solid var(--border-soft);padding-top:16px;">© 2026 BusinessFlow — Demo-Version</p>
+</footer>
+
+<!-- LISTING DETAIL MODAL -->
+<div class="overlay hidden" id="detailOverlay">
+  <div class="modal wide">
+    <button class="close-x" onclick="closeDetail()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="overlay hidden" id="contactOverlay">
+  <div class="modal">
+    <button class="close-x" onclick="closeContact()">✕</button>
+    <h2>Ersteller kontaktieren</h2>
+    <p class="sub" id="contactSub"></p>
+    <form onsubmit="return sendContact(event)">
+      <label>Dein Name</label>
+      <input id="c-name" required placeholder="Dein Name">
+      <label>Deine Nachricht</label>
+      <textarea id="c-msg" required placeholder="Hallo, ich interessiere mich für..."></textarea>
+      <button type="submit" class="submit">Nachricht senden</button>
+    </form>
+    <div class="success-msg hidden" id="contactSuccess">Nachricht gesendet.</div>
+  </div>
+</div>
+
+<!-- CHAT THREAD MODAL -->
+<div class="overlay hidden" id="threadOverlay">
+  <div class="modal wide" style="display:flex;flex-direction:column;padding:0;max-height:80vh;">
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border-soft);display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div id="threadCreator" style="font-weight:700;"></div>
+        <div id="threadListing" style="font-size:.8em;color:var(--text-dim);"></div>
+      </div>
+      <button class="close-x" style="position:static;" onclick="closeThread()">✕</button>
+    </div>
+    <div id="threadMessages" style="flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:10px;min-height:260px;"></div>
+    <form onsubmit="return sendThreadMessage(event)" style="display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--border-soft);">
+      <input id="thread-input" required placeholder="Nachricht schreiben..." style="flex:1;">
+      <button type="submit" class="submit" style="margin-top:0;white-space:nowrap;">Senden</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const tagLabel={kapital:'Sucht Kapital',hilfe:'Sucht Hilfe',partner:'Sucht Partner'};
+
+// ---- Navigation ----
+function showTab(tab,e){
+  document.getElementById('start').classList.toggle('hidden',tab!=='start');
+  document.getElementById('markt').classList.toggle('hidden',tab!=='markt');
+  document.getElementById('forum').classList.toggle('hidden',tab!=='forum');
+  document.getElementById('chat').classList.toggle('hidden',tab!=='chat');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+function toggle(id){document.getElementById(id).classList.toggle('hidden');}
+
+// ---- Inserate ----
+let listings=[
+  {id:1,title:"Handwerksbetrieb Schreinerei",type:"kapital",industry:"Handwerk",desc:"Etablierte Schreinerei mit treuem Kundenstamm sucht Investor für die Erneuerung des Maschinenparks und den Ausbau der Produktionskapazität.",loc:"Zug",teamCurrent:6,teamWanted:1,kapital:"120'000",time:"vor 2 Tagen",creator:"M. Huber"},
+  {id:2,title:"Online-Shop für Outdoor-Gear",type:"hilfe",industry:"E-Commerce",desc:"Wachsender Online-Shop sucht jemanden mit Erfahrung in Performance-Marketing als Sparringspartner für die nächste Wachstumsphase.",loc:"Zürich",teamCurrent:2,teamWanted:1,kapital:"",time:"vor 5 Tagen",creator:"S. Keller"}
+];
+let nextId=3;
+
+function addListing(e){
+  e.preventDefault();
+  listings.unshift({
+    id:nextId++,
+    title:document.getElementById('l-title').value,
+    type:document.getElementById('l-type').value,
+    industry:document.getElementById('l-industry').value||'Sonstiges',
+    desc:document.getElementById('l-desc').value,
+    loc:document.getElementById('l-loc').value||'Schweiz',
+    teamCurrent:document.getElementById('l-team-current').value||'0',
+    teamWanted:document.getElementById('l-team-wanted').value||'0',
+    kapital:document.getElementById('l-kapital').value,
+    time:'gerade eben',
+    creator:document.getElementById('l-creator').value
+  });
+  e.target.reset();
+  document.getElementById('formMarkt').classList.add('hidden');
+  renderListings();
+  return false;
+}
+function renderListings(){
+  const el=document.getElementById('listings');
+  el.innerHTML=listings.map(l=>`
+    <div class="card" onclick="openDetail(${l.id})">
+      <div class="card-top">
+        <span class="tag">${tagLabel[l.type]}</span>
+        <span class="industry">${l.industry}</span>
+      </div>
+      <h3>${l.title}</h3>
+      <p>${l.desc}</p>
+      <div class="stats">
+        <div class="stat"><b>${l.loc}</b>Standort</div>
+        <div class="stat"><b>${l.teamCurrent} jetzt · +${l.teamWanted} gesucht</b>Team</div>
+        ${l.kapital?`<div class="stat"><b>CHF ${l.kapital}</b>Kapitalbedarf</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// ---- Detailansicht ----
+let activeListing=null;
+function openDetail(id){
+  activeListing=listings.find(l=>l.id===id);
+  const l=activeListing;
+  document.getElementById('detailContent').innerHTML=`
+    <div class="detail-tag-row">
+      <span class="tag">${tagLabel[l.type]}</span>
+      <span class="industry">${l.industry} · ${l.loc}</span>
+    </div>
+    <h2 style="font-size:1.6em;margin-bottom:14px;">${l.title}</h2>
+    <p class="detail-desc">${l.desc}</p>
+    <div class="detail-stats">
+      <div class="detail-stat"><div class="label">Team aktuell</div><div class="val">${l.teamCurrent} Person(en)</div></div>
+      <div class="detail-stat"><div class="label">Gesucht</div><div class="val">+${l.teamWanted} Person(en)</div></div>
+      ${l.kapital?`<div class="detail-stat"><div class="label">Kapitalbedarf</div><div class="val">CHF ${l.kapital}</div></div>`:''}
+      <div class="detail-stat"><div class="label">Erstellt</div><div class="val">${l.time}</div></div>
+    </div>
+    <div class="creator-row">Erstellt von <b style="color:var(--text);">${l.creator}</b></div>
+    <button class="submit" onclick="openContact()">Ersteller kontaktieren</button>
+  `;
+  document.getElementById('detailOverlay').classList.remove('hidden');
+}
+function closeDetail(){document.getElementById('detailOverlay').classList.add('hidden');}
+
+// ---- Kontakt ----
+function openContact(){
+  document.getElementById('contactSub').textContent=`Nachricht an ${activeListing.creator} bezüglich "${activeListing.title}"`;
+  document.getElementById('c-msg').value='';
+  document.getElementById('contactSuccess').classList.add('hidden');
+  document.getElementById('contactOverlay').classList.remove('hidden');
+}
+function closeContact(){document.getElementById('contactOverlay').classList.add('hidden');}
+function sendContact(e){
+  e.preventDefault();
+  const sender=document.getElementById('c-name').value;
+  const text=document.getElementById('c-msg').value;
+  let convo=conversations.find(c=>c.listingId===activeListing.id && c.sender.toLowerCase()===sender.toLowerCase());
+  if(!convo){
+    convo={id:nextConvoId++,listingId:activeListing.id,listingTitle:activeListing.title,creator:activeListing.creator,sender,messages:[]};
+    conversations.unshift(convo);
+  }
+  convo.messages.push({text,time:'gerade eben'});
+  document.getElementById('contactSuccess').classList.remove('hidden');
+  document.getElementById('c-msg').value='';
+  renderChat();
+  return false;
+}
+
+// ---- Forum ----
+let posts=[
+  {author:"Reto",text:"Hat jemand Erfahrung mit Nachfolgeregelungen bei KMU in der Schweiz?",time:"vor 1 Tag"}
+];
+function addPost(e){
+  e.preventDefault();
+  posts.unshift({
+    author:document.getElementById('p-author').value,
+    text:document.getElementById('p-text').value,
+    time:'gerade eben'
+  });
+  e.target.reset();
+  renderPosts();
+  return false;
+}
+function renderPosts(){
+  const el=document.getElementById('posts');
+  el.innerHTML = posts.length? posts.map(p=>`
+    <div class="forum-post">
+      <span class="author">${p.author}</span><span class="time">${p.time}</span>
+      <p>${p.text}</p>
+    </div>`).join('') : '<p class="empty">Noch keine Beiträge.</p>';
+}
+
+// ---- Chat ----
+let conversations=[];
+let nextConvoId=1;
+let activeThreadId=null;
+
+function renderChat(){
+  const el=document.getElementById('chatMessages');
+  el.innerHTML = conversations.length ? conversations.map(c=>{
+    const last=c.messages[c.messages.length-1];
+    return `
+    <div class="chat-item" onclick="openThread(${c.id})">
+      <div>
+        <div class="ci-name">${c.creator}</div>
+        <div class="ci-sub">${c.listingTitle}</div>
+      </div>
+      <div class="ci-preview">${last.text}</div>
+      <div class="ci-time">${last.time}</div>
+    </div>`;
+  }).join('') : '<p class="empty">Noch keine Chats. Kontaktiere einen Ersteller über ein Inserat.</p>';
+}
+
+function openThread(id){
+  activeThreadId=id;
+  const c=conversations.find(x=>x.id===id);
+  document.getElementById('threadCreator').textContent=c.creator;
+  document.getElementById('threadListing').textContent=c.listingTitle;
+  renderThreadMessages(c);
+  document.getElementById('threadOverlay').classList.remove('hidden');
+}
+function closeThread(){document.getElementById('threadOverlay').classList.add('hidden');}
+function renderThreadMessages(c){
+  const el=document.getElementById('threadMessages');
+  el.innerHTML=c.messages.map(m=>`
+    <div class="bubble me">${m.text}<span class="b-time">${m.time}</span></div>
+  `).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function sendThreadMessage(e){
+  e.preventDefault();
+  const c=conversations.find(x=>x.id===activeThreadId);
+  const input=document.getElementById('thread-input');
+  c.messages.push({text:input.value,time:'gerade eben'});
+  input.value='';
+  renderThreadMessages(c);
+  renderChat();
+  return false;
+}
+
+renderListings();
+renderPosts();
+renderChat();
+</script>
+
+</body>
+</html>
